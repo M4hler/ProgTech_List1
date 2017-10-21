@@ -1,29 +1,35 @@
 package deck_and_cards;
 
-import junit.framework.TestCase;
+import static org.junit.Assert.*;
 
-public class DeckTesting extends TestCase
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Ignore;
+import org.junit.Test;
+
+public class DeckTesting
 {
-	private Deck deck = null;
+	private Deck deck;
 	
-	protected void setUp() throws Exception 
+	@Before
+	public void setUp() throws Exception 
 	{
-		super.setUp();
-		deck = new Deck(24);
+		deck = new Deck(32);
 	}
 
-	protected void tearDown() throws Exception 
+	@After
+	public void tearDown() throws Exception 
 	{
-		super.tearDown();
-		deck =null;
+		deck = null;
 	}
 
+	@Test(expected = IndexOutOfBoundsException.class)
 	public void testDeck() 
 	{
-		String str = deck.cards[0].color;
-		assertEquals("Incorrect color of card",str, "diamond");
+		System.out.println(deck.cards[32]);
 	}
 
+	@Test(timeout = 100)
 	public void testList() 
 	{
 		for(int i = 0; i < deck.numberOfCards; i++)
@@ -32,11 +38,13 @@ public class DeckTesting extends TestCase
 		}
 	}
 
+	@Test
 	public void testShuffle() 
 	{
 		assertFalse("Pointer is out of range", deck.pointer > deck.numberOfCards);
 	}
 
+	@Test
 	public void testSort() 
 	{
 		for(int i = 0; i < deck.numberOfCards - 1; i++)
@@ -45,9 +53,10 @@ public class DeckTesting extends TestCase
 		}
 	}
 
+	@Ignore("Just to make use of this annotation") @Test
 	public void testTopCard() 
 	{
 		assertTrue("Pointer is less than or equal to 0", deck.pointer > 0);
 	}
-
+	
 }
