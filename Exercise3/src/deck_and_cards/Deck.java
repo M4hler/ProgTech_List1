@@ -6,20 +6,22 @@ import java.util.Random;
 
 public class Deck
 {
-	public static Card[] cards;
-	public int numberOfCards;
-	public int numberOfColors;
-	public int pointer;
+	public static Card[] cards; //array of objects of type Card
+	
+	public int numberOfCards; //used in loops
+	public int numberOfColors; //used in loops
+	public int pointer; //used to determine the top card in the deck
 	
 	public Deck(int sizeOfDeck)
 	{
 		numberOfCards = sizeOfDeck;
 		pointer = sizeOfDeck;
-		cards = new Card[numberOfCards];
+		cards = new Card[numberOfCards]; //initializing the array
 		numberOfColors = Card.possibleColors.length;
 		
-		int startingValue = 0;
+		int startingValue = 0; //assigning a default value
 		
+		//place to decide what card we want to start a deck with
 		if(numberOfCards == 24)
 		{
 			startingValue = Card.Find(Card.firstCardIn24CardDeck);
@@ -35,6 +37,7 @@ public class Deck
 			 startingValue = Card.Find(Card.firstCardIn52CardDeck);
 		}
 		
+		//creating the cards, that are used e.g. in Texas Hold'em
 		for(int i = 0; i < numberOfCards / numberOfColors; i++)
 		{
 			for(int j = 0; j < numberOfColors; j++)
@@ -48,6 +51,7 @@ public class Deck
 		List();
 	}
 	
+	//printing out the cards to see the changes
 	public void List()
 	{
 		for(int i = 0; i < numberOfCards; i++)
@@ -57,11 +61,13 @@ public class Deck
 		System.out.println("");
 	}
 	
+	//shuffling the deck
 	public void Shuffle()
 	{
 		Random random = new Random();
-		for(int i = 0; i < random.nextInt(1000) + 1000; i++)
+		for(int i = 0; i < numberOfCards; i++)
 		{
+			//switching place of 2 cards
 			int tmp_int1 = random.nextInt(numberOfCards);
 			int tmp_int2 = random.nextInt(numberOfCards);
 			Card tmp_object = cards[tmp_int1];
@@ -69,11 +75,12 @@ public class Deck
 			cards[tmp_int2] = tmp_object;
 		}
 		
-		pointer = numberOfCards;
+		pointer = numberOfCards; //after shuffling the top card has again the biggest index
 		System.out.println("Shuffled deck");
 		List();
 	}
 	
+	//sorting the deck using bubble sort
 	public void Sort()
 	{
 		for(int i = 0; i < numberOfCards; i++)
@@ -93,11 +100,12 @@ public class Deck
 			}
 		}
 		
-		pointer = numberOfCards;
+		pointer = numberOfCards; //after sorting the top card has again the biggest index
 		System.out.println("Sorted deck");
 		List();
 	}
 	
+	//return a card from the top
 	public Card TopCard()
 	{
 		if(pointer == 0)
@@ -115,7 +123,9 @@ public class Deck
 		do
 		{
 			System.out.println("Give number of cards: ");
-			Scanner numberInput = new Scanner(System.in);
+			
+			@SuppressWarnings("resource")
+			Scanner numberInput = new Scanner(System.in); //Scanner isn't closed because its method closes the System.in buffer as well
 			
 			try
 			{
@@ -129,7 +139,8 @@ public class Deck
 			numberInput.nextLine();
 		} while(deckInitializer != 24 && deckInitializer != 32 && deckInitializer != 52);
 		
-		Deck deck = new Deck(deckInitializer);
+		Deck deck = new Deck(deckInitializer); //instance of a deck
+		//a few calls of functions to see how the deck class is working
 		deck.Shuffle();
 		Card n = deck.TopCard();
 		System.out.println("TOP: " + n.value + " " + n.color);
